@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid;
+
+    if ((pid = fork()) < 0) {
+        perror("fork error");
+    } else if (pid == 0) {
+        _exit(0);  // Child exits immediately
+    }
+
+    sleep(4); // Parent waits, during this time the child is a zombie
+    system("ps -o pid,ppid,state,tty,command"); // Display process status
+    _exit(0);
+}
